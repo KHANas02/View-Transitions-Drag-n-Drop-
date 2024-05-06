@@ -1,0 +1,73 @@
+@import "https://unpkg.com/open-props" layer(design.system);
+@import "https://unpkg.com/open-props/normalize.min.css" layer(demo.support);
+
+@layer demo {
+  @keyframes drop-zone {
+    from { box-shadow: 0 0 0 0 var(--link) }
+    to   { box-shadow: 0 0 0 25px #0000 }
+  }
+  
+  li.over {
+    outline: 2px dashed var(--link);
+    
+    @media (prefers-reduced-motion: no-preference) {
+      animation: drop-zone 1.5s var(--ease-out-5) infinite;
+    }
+    
+    > * {
+      pointer-events: none;
+    }
+  }
+  
+  [draggable] {
+    cursor: grab;
+    user-select: none;
+    
+    &:active {
+      cursor: grabbing;
+    }
+  }
+  
+  /* 
+    optimization: 
+    disguises the crossfade on the gif, 
+    show the live gif always 
+  */
+  ::view-transition-old(yes-this-keeps-animating-during-morph) {
+    display: none;
+  }
+  ::view-transition-new(yes-this-keeps-animating-during-morph) {
+    animation: none;
+  }
+  html {
+    view-transition-name: none;
+  }
+}
+
+@layer demo.support {
+  body {
+    display: grid;
+    place-content: center;
+    padding: var(--size-5);
+    gap: var(--size-5);
+  }
+  
+  ol {
+    display: grid;
+    gap: var(--size-3);
+    justify-items: start;
+  }
+  
+  ol > li {
+    background: var(--surface-2);
+    border: 1px solid transparent;
+    padding-block: var(--size-3);
+    padding-inline: var(--size-4);
+    border-radius: var(--radius-3);
+    box-shadow: var(--shadow-4);
+    
+    @media (prefers-color-scheme: light) {
+      background: white;
+    }
+  }
+}
